@@ -14,11 +14,21 @@ vector<int> teachers_of_friars(int friars[600][3], int friar, vector <int> teach
 		}
 	}
 	return teachers;
-	//return 0;
+}
+
+int common_teacher(vector <int> teachers1, vector <int> teachers2) {
+	for (int i = 0; i < teachers1.size(); i++) {
+		for (int j = 0; j < teachers2.size(); j++) {
+			if (teachers1[i] == teachers2[j]) {
+				return teachers1[i];
+			}
+		}
+	}
+	return 0;
 }
 
 int main() {
-	setlocale(0, " ");
+	setlocale(0, "");
 	fstream data;
 	// Считываем исходные данные о монахах
 	data.open("friars.txt", ios::in);
@@ -44,20 +54,45 @@ int main() {
 			vector <int> teachers;
 			teachers = teachers_of_friars(friars, t, teachers);
 			if (teachers.size() == 0) {
-				cout << t + 1 << " - не монах" << endl;
+				cout << t << " - не монах" << endl;
 			}
 			else {
-				cout << t + 1 << " - монах, его учителя ";
+				cout << t << " - монах, его учителя ";
 				for (int k = 0; k < teachers.size(); k++) {
-
+					cout << teachers[k];
+					if (k < teachers.size() - 1) {
+						cout << ", ";
+					}
 				}
+				cout << endl;
 			}
 		}
-		for (int k = 0; k < n; k++) {
-			data >> t;
-			vector <int> teachers;
-			teachers = teachers_of_friars(friars, t, teachers);
-			cout << "";
+		else {
+			int t1, t2;
+			data >> t1 >> t2;
+			vector <int> teachers1, teachers2;
+			teachers1 = teachers_of_friars(friars, t1, teachers1);
+			teachers2 = teachers_of_friars(friars, t2, teachers2);
+			if (teachers1.size() == 0 and teachers2.size() == 0) {
+				cout << t1 << " и " << t2 << " - не монахи" << endl;
+			}
+			else if (teachers1.size() == 0) {
+				cout << t1 << " - не монах" << endl;
+			}
+			else if (teachers2.size() == 0) {
+				cout << t2 << " - не монах" << endl;
+			}
+			else {
+				int common = common_teacher(teachers1, teachers2);
+				cout << t1 << " и " << t2 << " - оба монахи";
+				if (common == 0) {
+					cout << ", общего учителя нет" << endl;
+				}
+				else {
+					cout << ", и их общий учитель " << common << endl;
+				}
+				
+			}
 		} 
 	}
 	data.close();
