@@ -49,11 +49,11 @@ int main()
 
     Sprite characterStuff;
     characterStuff.setTexture(characterStuffTexture1);
-    characterStuff.setPosition(0, window.getSize().y / 2 - characterStuff.getLocalBounds().height / 2);
+    characterStuff.setPosition(0, window.getSize().y / 4);
 
     Sprite character;
     character.setTexture(characterTexture);
-    character.setPosition(characterStuff.getLocalBounds().width - character.getLocalBounds().width, window.getSize().y / 2 - character.getLocalBounds().height / 2);
+    character.setPosition(characterStuff.getLocalBounds().width - character.getLocalBounds().width, window.getSize().y / 4);
 
     Sprite splash;
     splash.setTexture(splashTexture);
