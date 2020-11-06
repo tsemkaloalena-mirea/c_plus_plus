@@ -12,39 +12,54 @@ int main()
     RenderWindow window(VideoMode(1600, 800), "Clicker");
     window.setFramerateLimit(30);
 
-    Texture characterTexture1;
-    GameObject::MaskedTexture(characterTexture1, "C:/mirea/c_plus_plus/click_game/click_game/data/img/nyan_cat_1.png");
+    Texture characterTexture;
+    GameObject::MaskedTexture(characterTexture, "C:/mirea/c_plus_plus/click_game/click_game/data/img/nyan_cat.png");
 
-    Texture characterTexture2;
-    GameObject::MaskedTexture(characterTexture2, "C:/mirea/c_plus_plus/click_game/click_game/data/img/nyan_cat_2.png");
+    Texture characterStuffTexture1;
+    GameObject::MaskedTexture(characterStuffTexture1, "C:/mirea/c_plus_plus/click_game/click_game/data/img/rainbow_1.png");
+    Texture characterStuffTexture2;
+    GameObject::MaskedTexture(characterStuffTexture2, "C:/mirea/c_plus_plus/click_game/click_game/data/img/rainbow_2.png");
 
     Texture lavaTexture;
     GameObject::MaskedTexture(lavaTexture, "C:/mirea/c_plus_plus/click_game/click_game/data/img/lava.png");
     
     Texture splashTexture;
     GameObject::MaskedTexture(splashTexture, "C:/mirea/c_plus_plus/click_game/click_game/data/img/splash.png");
+    Texture bloodSplashTexture;
+    GameObject::MaskedTexture(bloodSplashTexture, "C:/mirea/c_plus_plus/click_game/click_game/data/img/blood_splash.png");
 
     Texture skyTexture;
     GameObject::MaskedTexture(skyTexture, "C:/mirea/c_plus_plus/click_game/click_game/data/img/sky.png");
 
-    Texture stoneTexture1;
-    GameObject::MaskedTexture(stoneTexture1, "C:/mirea/c_plus_plus/click_game/click_game/data/img/stone1.png");
-    Texture stoneTexture2;
-    GameObject::MaskedTexture(stoneTexture2, "C:/mirea/c_plus_plus/click_game/click_game/data/img/stone2.png");
-    Texture stoneTexture3;
-    GameObject::MaskedTexture(stoneTexture3, "C:/mirea/c_plus_plus/click_game/click_game/data/img/stone3.png");
-    Texture stoneTexture4;
-    GameObject::MaskedTexture(stoneTexture4, "C:/mirea/c_plus_plus/click_game/click_game/data/img/stone4.png");
-    Texture stoneTexture5;
-    GameObject::MaskedTexture(stoneTexture5, "C:/mirea/c_plus_plus/click_game/click_game/data/img/stone5.png");
+    Texture dogTexture1;
+    GameObject::MaskedTexture(dogTexture1, "C:/mirea/c_plus_plus/click_game/click_game/data/img/dog1.png");
+    Texture dogTexture2;
+    GameObject::MaskedTexture(dogTexture2, "C:/mirea/c_plus_plus/click_game/click_game/data/img/dog2.png");
+    Texture dogTexture3;
+    GameObject::MaskedTexture(dogTexture3, "C:/mirea/c_plus_plus/click_game/click_game/data/img/dog3.png");
+    Texture dogTexture4;
+    GameObject::MaskedTexture(dogTexture4, "C:/mirea/c_plus_plus/click_game/click_game/data/img/dog4.png");
+    Texture dogTexture5;
+    GameObject::MaskedTexture(dogTexture5, "C:/mirea/c_plus_plus/click_game/click_game/data/img/dog5.png");
+
+    Texture UFOTexture;
+    GameObject::MaskedTexture(UFOTexture, "C:/mirea/c_plus_plus/click_game/click_game/data/img/icecream.png");
+    Texture UFOSplashTexture;
+    GameObject::MaskedTexture(UFOSplashTexture, "C:/mirea/c_plus_plus/click_game/click_game/data/img/splash_icecream.png");
+
+    Sprite characterStuff;
+    characterStuff.setTexture(characterStuffTexture1);
+    characterStuff.setPosition(0, window.getSize().y / 2 - characterStuff.getLocalBounds().height / 2);
 
     Sprite character;
-    character.setTexture(characterTexture1);
-    character.setPosition(0, window.getSize().y / 2 - character.getLocalBounds().height / 2);
+    character.setTexture(characterTexture);
+    character.setPosition(characterStuff.getLocalBounds().width - character.getLocalBounds().width, window.getSize().y / 2 - character.getLocalBounds().height / 2);
 
     Sprite splash;
     splash.setTexture(splashTexture);
     splash.setPosition(260, window.getSize().y - 260);
+    Sprite blood_splash;
+    blood_splash.setTexture(bloodSplashTexture);
 
     int sky_length = window.getSize().x / skyTexture.getSize().x + 2;
     Sprite* sky = new Sprite[sky_length];
@@ -60,12 +75,23 @@ int main()
         lava[j].setPosition(j * lava[j].getLocalBounds().width, window.getSize().y - lava[j].getLocalBounds().height);
     }
 
-    Sprite stone[5];
-    stone[0].setTexture(stoneTexture1);
-    stone[1].setTexture(stoneTexture2);
-    stone[2].setTexture(stoneTexture3);
-    stone[3].setTexture(stoneTexture4);
-    stone[4].setTexture(stoneTexture5);
+    int dog_length = 5;
+    Sprite* dog = new Sprite[dog_length];
+    dog[0].setTexture(dogTexture1);
+    dog[1].setTexture(dogTexture2);
+    dog[2].setTexture(dogTexture3);
+    dog[3].setTexture(dogTexture4);
+    dog[4].setTexture(dogTexture5);
+    for (int k = 0; k < dog_length; k++) {
+        dog[k].setPosition(rand() % 3200 + window.getSize().x, window.getSize().y - dog[k].getLocalBounds().height - 100);
+    }
+
+    int UFO_length = 5;
+    Sprite* UFO = new Sprite[UFO_length];
+    for (int k = 0; k < UFO_length; k++) {
+        UFO[k].setTexture(UFOTexture);
+        UFO[k].setPosition(rand() % 3200 + window.getSize().x, rand() % 200);
+    }
 
     while (window.isOpen())
     {
@@ -84,25 +110,27 @@ int main()
             }
         }
 
-        if (Keyboard::isKeyPressed(Keyboard::Key::Right))
-        {
-            character.move(SPEED, 0);
-        }
-        else if (Keyboard::isKeyPressed(Keyboard::Key::Left))
-        {
-            character.move(-SPEED, 0);
-        }
+        //if (Keyboard::isKeyPressed(Keyboard::Key::Right))
+        //{
+        //    character.move(SPEED, 0);
+        //}
+        //else if (Keyboard::isKeyPressed(Keyboard::Key::Left))
+        //{
+        //    character.move(-SPEED, 0);
+        //}
 
-        if (Keyboard::isKeyPressed(Keyboard::Key::Up))
+        if (Keyboard::isKeyPressed(Keyboard::Key::Up) or Keyboard::isKeyPressed(Keyboard::Key::Space))
         {
             character.move(0, -SPEED);
+            characterStuff.move(0, -SPEED);
         }
-        else if (Keyboard::isKeyPressed(Keyboard::Key::Down))
-        {
-            character.move(0, SPEED);
-        }
+        //else if (Keyboard::isKeyPressed(Keyboard::Key::Down))
+        //{
+        //    character.move(0, SPEED);
+        //}
         else {
             character.move(0, SPEED);
+            characterStuff.move(0, SPEED);
         }
 
         window.clear();
@@ -117,12 +145,13 @@ int main()
         
         FRAME_NUMBER++;
         if (FRAME_NUMBER % 6 == 0 or FRAME_NUMBER % 6 == 1 or FRAME_NUMBER % 6 == 2) {
-            character.setTexture(characterTexture1);
+            characterStuff.setTexture(characterStuffTexture1);
         }
         else {
-            character.setTexture(characterTexture2);
+            characterStuff.setTexture(characterStuffTexture2);
         }
         window.draw(character);
+        window.draw(characterStuff);
 
         if (GameObject::CollisionsTest(character, lava))
         {
@@ -135,6 +164,36 @@ int main()
             lava[j].move(-SPEED, 0);
             if (lava[j].getPosition().x < (j - 1) * lava[j].getLocalBounds().width) {
                 lava[j].setPosition(j * lava[j].getLocalBounds().width, window.getSize().y - lava[j].getLocalBounds().height);
+            }
+        }
+
+        for (int k = 0; k < dog_length; k++) {
+            window.draw(dog[k]);
+            dog[k].move(-SPEED, 0);
+            if (dog[k].getPosition().x < -dog[k].getLocalBounds().width) {
+                dog[k].setPosition(rand() % 3200 + window.getSize().x, window.getSize().y - dog[k].getLocalBounds().height - 100);
+
+            }
+            if (GameObject::CollisionTest(character, dog[k]))
+            {
+                blood_splash.setPosition(characterStuff.getLocalBounds().width - 140, character.getPosition().y - 80);
+                window.draw(blood_splash);
+                SPEED = 0;
+            }
+        }
+
+        for (int k = 0; k < UFO_length; k++) {
+            window.draw(UFO[k]);
+            UFO[k].move(-SPEED * 2, 0);
+            if (UFO[k].getPosition().x < -UFO[k].getLocalBounds().width) {
+                UFO[k].setPosition(rand() % 3200 + window.getSize().x, rand() % 200);
+
+            }
+            if (GameObject::CollisionTest(character, UFO[k]))
+            {
+                UFO[k].setTexture(UFOSplashTexture);
+                window.draw(UFO[k]);
+                SPEED = 0;
             }
         }
 
